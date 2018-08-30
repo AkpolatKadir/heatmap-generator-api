@@ -6,7 +6,7 @@ const morgan = require("morgan");
 const fs = require("fs");
 const rfs = require("rotating-file-stream");
 
-const heatmapRouter = require("./routes/api/heatmapGenerator");
+const heatmapRouter = require("./routes/api/heatmap");
 const indexRouter = require("./routes/index");
 const app = express();
 
