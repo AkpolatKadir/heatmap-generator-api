@@ -23,7 +23,7 @@ const createFrequencyMap = (roi_vector, options) => {
 };
 
 // Create heatmap filter from frequency data.
-const createHeatmap = frequencyData => {
+const createHeatmapFilter = frequencyData => {
   return new Promise((resolve, reject) => {
     if (!frequencyData.frequencyMap) {
       reject("Frequency Map is not valid. Can't create heatmap.");
@@ -33,14 +33,13 @@ const createHeatmap = frequencyData => {
       frequencyData.frequencyMap.getFrequencyMapSize()
     );
     heatmapObject.drawHeatmap(frequencyData.frequencyVector, heatmapFilter => {
-      // In this block, we are sure that we got the heatmap.
       resolve(heatmapFilter);
     });
   });
 };
 
 // Apply the filter.
-const composeImages = (originalImage, heatmapFilter, options) => {
+const composeFilterAndImage = (originalImage, heatmapFilter, options) => {
   return new Promise((resolve, reject) => {
     imageComposer.composeImages(
       originalImage,
@@ -62,26 +61,22 @@ const composeImages = (originalImage, heatmapFilter, options) => {
 // Prepare base64 image to be send with response.
 const getBufferedImage = (image, imageFormat) => {
   return new Promise((resolve, reject) => {
-    if (!isValidFormat(imageFormat)) {
-      reject("Invalid image format");
-    }
-
     switch (imageFormat) {
       case "PNG":
-        image.getBase64(Jimp.MIME_PNG, (err, resultImage) => {
+        image.getBuffer(Jimp.MIME_PNG, (err, resultImage) => {
           resolve(resultImage);
         }); // Send png image.
         break;
 
       case "JPEG":
-        image.getBase64(Jimp.MIME_JPEG, (err, resultImage) => {
-          resolve(resultImage); // Send png image.
+        image.getBuffer(Jimp.MIME_JPEG, (err, resultImage) => {
+          resolve(resultImage); // Send jpeg image.
         });
         break;
 
       case "BMP":
         image.getBase64(Jimp.MIME_BMP, (err, resultImage) => {
-          resolve(resultImage); // Send png image.
+          resolve(resultImage); // Send bmp image.
         });
         break;
 
@@ -92,17 +87,9 @@ const getBufferedImage = (image, imageFormat) => {
   });
 };
 
-const isValidFormat = format => {
-  return (
-    format !== undefined &&
-    (format === "PNG" || format === "JPEG" || format === "BMP")
-  );
-};
-
 module.exports = {
-  composeImages,
-  createHeatmap,
+  composeFilterAndImage,
+  createHeatmapFilter,
   createFrequencyMap,
-  getBufferedImage,
-  isValidFormat
+  getBufferedImage
 };

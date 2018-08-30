@@ -39,7 +39,6 @@ class HeatmapDrawer {
       this.frequencyMapSize.height,
       function(err, image) {
         // this image is 640 x 480, every pixel is set to 0x00000000
-        // console.log(frequencyMap)
         let maxValue = frequencyMap.reduce(function(a, b) {
           return Math.max(a, b);
         });
@@ -48,10 +47,9 @@ class HeatmapDrawer {
           for (let col = 0; col != self.frequencyMapSize.width; ++col) {
             const index = offset + col;
             const value = frequencyMap[index] / maxValue;
-            //console.log("Calculated value is : " + value);
+
             let calculatedColor = self.getValueBetweenTwoFixedColors(value);
 
-            //console.log("calculated color is : " + calculatedColor.blue);
             let hexValue = Jimp.rgbaToInt(
               calculatedColor.red,
               calculatedColor.green,
