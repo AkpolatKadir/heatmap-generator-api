@@ -9,6 +9,9 @@ const rfs = require("rotating-file-stream");
 const heatmapRouter = require("./routes/api/heatmapGenerator");
 const indexRouter = require("./routes/index");
 const app = express();
+
+const validationMiddleware = require("./middleware/validation");
+
 app.set("env", "production");
 
 // view engine setup
@@ -50,6 +53,7 @@ if (app.settings.env == "production") {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(validationMiddleware);
 
 app.use("/", indexRouter);
 app.use("/heatmap", heatmapRouter);

@@ -1,6 +1,6 @@
 const Joi = require("joi");
 const schema = Joi.object().keys({
-  cameraName: Joi.string().required(),
+  imageUrl: Joi.string().required(),
   positions: Joi.array().items(
     Joi.object({
       x: Joi.number()
