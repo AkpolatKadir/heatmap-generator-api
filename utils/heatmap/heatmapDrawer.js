@@ -33,22 +33,22 @@ class HeatmapDrawer {
   }
 
   drawHeatmap(frequencyMap, callback) {
-    var self = this;
     var heatmapImage = new Jimp(
       this.frequencyMapSize.width,
       this.frequencyMapSize.height,
-      function(err, image) {
+      (err, image) => {
         // this image is 640 x 480, every pixel is set to 0x00000000
         let maxValue = frequencyMap.reduce(function(a, b) {
           return Math.max(a, b);
         });
-        for (let row = 0; row != self.frequencyMapSize.height; ++row) {
-          const offset = row * self.frequencyMapSize.width;
-          for (let col = 0; col != self.frequencyMapSize.width; ++col) {
+
+        for (let row = 0; row != this.frequencyMapSize.height; ++row) {
+          const offset = row * this.frequencyMapSize.width;
+          for (let col = 0; col != this.frequencyMapSize.width; ++col) {
             const index = offset + col;
             const value = frequencyMap[index] / maxValue;
 
-            let calculatedColor = self.getValueBetweenTwoFixedColors(value);
+            let calculatedColor = this.getValueBetweenTwoFixedColors(value);
 
             let hexValue = Jimp.rgbaToInt(
               calculatedColor.red,
