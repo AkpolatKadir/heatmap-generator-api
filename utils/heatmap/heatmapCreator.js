@@ -47,7 +47,6 @@ const composeFilterAndImage = (originalImage, heatmapFilter, options) => {
       filteredImage => {
         console.log("Filtered image is : ", filteredImage);
         if (!filteredImage) {
-          console.log(filteredImage);
           reject("Filtered image is not valid. Compose Error");
         }
         console.log("Image is filtered");
@@ -75,13 +74,12 @@ const getBufferedImage = (image, imageFormat) => {
         break;
 
       case "BMP":
-        image.getBase64(Jimp.MIME_BMP, (err, resultImage) => {
+        image.getBuffer(Jimp.MIME_BMP, (err, resultImage) => {
           resolve(resultImage); // Send bmp image.
         });
         break;
 
       default:
-        console.log("Invalid format.");
         reject("Invalid Format.");
     }
   });
