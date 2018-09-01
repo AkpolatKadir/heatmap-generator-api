@@ -53,7 +53,7 @@ if (app.settings.env == "production") {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(validationMiddleware);
+app.use(validationMiddleware); // Add validation middleware.
 
 app.use("/", indexRouter);
 app.use("/heatmap", heatmapRouter);
